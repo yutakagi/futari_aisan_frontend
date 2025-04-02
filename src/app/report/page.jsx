@@ -9,7 +9,7 @@ export default function Report() {
   const [reportData, setReportData] = useState(null);
 
   const fetchReport = async () => {
-    const res = await fetch(`http://localhost:8000/report/?user_id=${userId}`);
+    const res = await fetch(`https://app-002-step3-2-py-oshima10.azurewebsites.net/report/?user_id=${userId}`);
     const data = await res.json();
     setReportData(data);
   };
@@ -24,10 +24,12 @@ export default function Report() {
       <button onClick={fetchReport}>Fetch Report</button>
       {reportData && (
         <div>
-          <h2>レポート</h2>
-          <p>{reportData.report}</p>
-          <h2>アドバイス</h2>
-          <p>{reportData.advice}</p>
+          <h2>今週の状況</h2>
+          <p>{reportData.first}</p>
+          <h2>パートナーへのコメント</h2>
+          <p>{reportData.second}</p>
+          <h2>夫婦で話したいこと夫婦で話したいこと</h2>
+          <p>{reportData.third}</p>
         </div>
       )}
     </div>
