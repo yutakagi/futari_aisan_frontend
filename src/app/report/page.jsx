@@ -14,8 +14,11 @@ export default function Page() {
     setResult(null);
 
     try {
-      // FastAPI側のURLはご利用環境に合わせて修正してください
-      const baseUrl = "http://localhost:8000";
+       // ローカル環境の場合
+       // const baseUrl = "http://localhost:8000";
+       // ローカル環境の場合
+          const baseUrl = "https://app-002-step3-2-py-oshima10.azurewebsites.net";
+ 
       const url = `${baseUrl}/structured_vector_search/fixed_all?user_id=${userId}&days=${days}`;
 
       const response = await fetch(url);
