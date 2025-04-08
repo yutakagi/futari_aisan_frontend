@@ -8,11 +8,10 @@ const __dirname = dirname(__filename);
 const compat = new FlatCompat({
   baseDirectory: __dirname,
   recommendedConfig: {
-    extends: "eslint:recommended"
+    extends: ["next/core-web-vitals"]
   }
 });
 
-// 正しいフラット設定形式を使用
 export default [
   ...compat.config({
     extends: ["next/core-web-vitals"]
