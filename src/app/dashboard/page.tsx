@@ -1,15 +1,26 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { LayoutGrid, MessageCircle, RotateCcw, Settings, Bell, Search } from 'lucide-react'
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { LayoutGrid, MessageCircle, RotateCcw, Settings, Bell, Search } from 'lucide-react';
+import { Zen_Maru_Gothic } from "next/font/google";
+import { useRouter } from "next/navigation";
+
+
+// Zen Maru Gothicフォントの設定
+const zenMaruGothic = Zen_Maru_Gothic({
+    weight: ["400", "500", "700"],
+    subsets: ["latin"],
+    display: "swap",
+});
 
 export default function DashboardPage() {
   const [isClient, setIsClient] = useState(false)
   const [userName, setUserName] = useState('斎藤 俊輔')
   const [userId, setUserId] = useState('1')
   const [partnerName, setPartnerName] = useState('美海')
+  const router = useRouter(); 
   
   // API関連の状態
   const [days, setDays] = useState(7)
@@ -87,7 +98,7 @@ export default function DashboardPage() {
   return (
     <div className="flex h-screen bg-[#f8f3e9]">
       {/* サイドバー */}
-      <div className="w-64 bg-white p-6 flex flex-col">
+      <div className={`w-64 bg-white p-6 flex flex-col ${zenMaruGothic.className}`}>
         <div className="flex items-center mb-10">
           <div className="w-10 h-10 mr-2">
             <Image 
@@ -99,7 +110,7 @@ export default function DashboardPage() {
               priority
             />
           </div>
-          <h2 className="text-lg font-medium">ふたりのAIさん</h2>
+          <h2 className="text-lg font-medium ${zenMaruGothic.className}">ふたりのAIさん</h2>
         </div>
 
         <nav className="flex-1">
@@ -148,8 +159,11 @@ export default function DashboardPage() {
               <Bell className="w-4 h-4 mr-2" />
               相手が怒ってそう！
             </button>
-            <button className="bg-gradient-to-r from-[#f8d3a8] to-[#e88e67] text-white px-6 py-2 rounded-md">
-              あのね！
+            <button
+              onClick={() => router.push("/conversation")} // クリック時に遷移
+              className="bg-gradient-to-r from-[#f8d3a8] to-[#e88e67] text-white px-6 py-2 rounded-md"
+            >
+              今日のあのね！
             </button>
           </div>
         </div>
@@ -213,7 +227,7 @@ export default function DashboardPage() {
             <div className="flex items-center mb-6">
               <div className="w-12 h-12 rounded-full overflow-hidden mr-3">
                 <Image
-                  src="/placeholder.svg?height=48&width=48"
+                  src="/user-circle.svg"
                   alt={`${partnerName}さんのプロフィール`}
                   width={48}
                   height={48}
@@ -277,7 +291,7 @@ export default function DashboardPage() {
             <div className="flex items-center mb-6">
               <div className="w-12 h-12 rounded-full overflow-hidden mr-3">
                 <Image
-                  src="/placeholder.svg?height=48&width=48"
+                  src="/user-circle.svg"
                   alt="ユーザープロフィール"
                   width={48}
                   height={48}
