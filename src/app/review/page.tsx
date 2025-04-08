@@ -75,7 +75,7 @@ export default function ReviewPage() {
             </li>
             <li className="flex items-center p-2 rounded hover:bg-gray-100">
               <RotateCcw className="w-5 h-5 mr-3 text-gray-500" />
-              <Link href="/review" className="w-full">レビュー</Link>
+              <Link href="/review" className="w-full">ふりかえり</Link>
             </li>
             <li className="flex items-center p-2 rounded hover:bg-gray-100">
               <Settings className="w-5 h-5 mr-3 text-gray-500" />
@@ -87,7 +87,7 @@ export default function ReviewPage() {
         <div className="mt-auto flex items-center">
           <div className="w-12 h-12 rounded-full overflow-hidden mr-3">
             <Image
-              src="/placeholder.svg?height=48&width=48"
+              src="/user-circle.svg"
               alt="ユーザープロフィール"
               width={48}
               height={48}
@@ -113,7 +113,7 @@ export default function ReviewPage() {
               <div className="flex items-center mb-6">
                 <div className="w-16 h-16 rounded-full overflow-hidden mr-4">
                   <Image
-                    src={review.profileImage || "/placeholder.svg"}
+                    src="/user-circle.svg"
                     alt={`${review.person}さんのプロフィール`}
                     width={64}
                     height={64}

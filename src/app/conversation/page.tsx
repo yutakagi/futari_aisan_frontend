@@ -12,6 +12,7 @@ export default function ConversationPage() {
   const [chatHistory, setChatHistory] = useState([])
   const [userInput, setUserInput] = useState("")
   const [userId, setUserId] = useState("1")
+  const [userIdInput, setUserIdInput] = useState("1") // デバッグ用ユーザーID入力
   const [userName, setUserName] = useState("斎藤 俊輔")
   const [saveStatus, setSaveStatus] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -94,6 +95,14 @@ export default function ConversationPage() {
     setUserInput("")
   }
 
+  // ユーザーID更新ハンドラー
+  const handleUserIdUpdate = (e) => {
+    e.preventDefault()
+    if (isLoading) return
+    setUserId(userIdInput)
+    handleNewSession()
+  }
+
   // 会話履歴保存用エンドポイント /save_conversation を呼び出す
   const handleSaveConversation = async () => {
     if (!sessionId || !userId) {
@@ -173,7 +182,7 @@ export default function ConversationPage() {
             </li>
             <li className="flex items-center p-2 rounded hover:bg-gray-100">
               <RotateCcw className="w-5 h-5 mr-3 text-gray-500" />
-              <Link href="/review" className="w-full">レビュー</Link>
+              <Link href="/review" className="w-full">ふりかえり</Link>
             </li>
             <li className="flex items-center p-2 rounded hover:bg-gray-100">
               <Settings className="w-5 h-5 mr-3 text-gray-500" />
@@ -200,8 +209,34 @@ export default function ConversationPage() {
 
       {/* メインコンテンツ */}
       <div className="flex-1 flex flex-col">
-        <header className="p-6">
+        <header className="p-6 flex justify-between items-center">
           <h1 className="text-2xl font-bold">今日のあのね！</h1>
+          
+          {/* デバッグ用ユーザーID入力 */}
+          <div className="flex items-center">
+            <form onSubmit={handleUserIdUpdate} className="flex">
+              <input
+                type="text"
+                value={userIdInput}
+                onChange={(e) => setUserIdInput(e.target.value)}
+                placeholder="ユーザーID"
+                className="p-2 text-sm rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#e88e67]"
+                disabled={isLoading}
+              />
+              <button
+                type="submit"
+                className={`${
+                  isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-[#d35f4d] hover:bg-[#c04a3a]"
+                } text-white px-3 py-2 text-sm rounded-r-lg transition-colors`}
+                disabled={isLoading}
+              >
+                ID設定
+              </button>
+            </form>
+            <div className="ml-2 text-sm text-gray-500">
+              現在のID: {userId}
+            </div>
+          </div>
         </header>
 
         <div className="flex-1 p-6 overflow-hidden">
@@ -316,4 +351,3 @@ export default function ConversationPage() {
     </div>
   )
 }
-
