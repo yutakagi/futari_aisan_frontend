@@ -1,11 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   eslint: {
     // ビルド時のESLintチェックを無効化
     ignoreDuringBuilds: true,
   },
-  // 他の設定...
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': __dirname,
+    };
+    return config;
+  },
 };
 
-// module.exports = nextConfig; の代わりに
 export default nextConfig;
