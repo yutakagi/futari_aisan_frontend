@@ -7,4 +7,5 @@ const nextConfig = {
   // 他の設定...
 };
 
-module.exports = nextConfig;
+// module.exports = nextConfig; の代わりに
+export default nextConfig;
