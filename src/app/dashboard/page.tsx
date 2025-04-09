@@ -189,7 +189,7 @@ export default function DashboardPage() {
               <input
                 type="number"
                 value={days}
-                onChange={(e) => setDays(e.target.value)}
+                onChange={(e) => setDays(Number(e.target.value))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#e88e67]"
                 placeholder="取得する日数"
               />
