@@ -71,6 +71,4 @@ jobs:
           package: ./deploy
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DCD5358CBF2E4309AB1F45B0E7E3AC82 }}
       
-      - name: Copy public directory
-        run: |
-          cp -r public .next/standalone/
+      
