@@ -108,6 +108,7 @@ export default function DashboardPage() {
               height={40} 
               className="object-contain"
               priority
+              unoptimized
             />
           </div>
           <h2 className="text-lg font-medium ${zenMaruGothic.className}">ふたりのAIさん</h2>
