@@ -18,7 +18,7 @@ const zenMaruGothic = Zen_Maru_Gothic({
 export default function DashboardPage() {
   const [isClient, setIsClient] = useState(false)
   const [userName, setUserName] = useState('斎藤 俊輔')
-  const [userId, setUserId] = useState('1')
+  const [userId, setUserId] = useState('1001')
   const [partnerName, setPartnerName] = useState('美海')
   const router = useRouter(); 
   
