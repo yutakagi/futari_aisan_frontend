@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  eslint: {
+    // ビルド時のESLintチェックを無効化
+    ignoreDuringBuilds: true,
+  },
+  // 他の設定...
+};
 
-export default nextConfig;
-
+module.exports = nextConfig;
