@@ -6,6 +6,7 @@ import Link from "next/link";
 import { LayoutGrid, MessageCircle, RotateCcw, Settings, Bell, Search } from 'lucide-react';
 import { Zen_Maru_Gothic } from "next/font/google";
 import { useRouter } from "next/navigation";
+import ReactMarkdown from 'react-markdown';
 
 const zenMaruGothic = Zen_Maru_Gothic({
   weight: ["400", "500", "700"],
@@ -36,7 +37,7 @@ export default function DashboardPage() {
     setError("")
 
     try {
-      //const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+      // const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const baseUrl = "https://app-002-step3-2-py-oshima10.azurewebsites.net"
       const url = `${baseUrl}/structured_vector_search/fixed_all?user_id=${userId}&days=${days}`
 
@@ -85,14 +86,6 @@ export default function DashboardPage() {
     )
   }
 
-  const getPartnerSummary = () => {
-    if (!result || !result.saved_summaries) return null;
-    return result.saved_summaries.find(item =>
-      item.query_key.toLowerCase().includes('partner') || item.query_key.includes('パートナー')
-    )
-  }
-
-  const partnerSummary = getPartnerSummary()
 
   return (
     <div className="flex h-screen bg-[#f8f3e9]">
@@ -240,46 +233,19 @@ export default function DashboardPage() {
               <div className="py-8 text-center">
                 <p>データを読み込んでいます...</p>
               </div>
-            ) : result && result.saved_summaries ? (
+            ) : result && result.partner_summaries ? (
               <div className="space-y-6">
-                {result.saved_summaries.map((item, index) => (
+                {result.partner_summaries.map((item, index) => (
                   <div key={index}>
                     <h3 className="font-bold mb-2">【{item.query_key}】</h3>
-                    <p className="text-sm leading-relaxed">
-                      {item.summay_text}
+                    <p className="prose prose-sm">
+                      <ReactMarkdown>{item.summay_text}</ReactMarkdown>
                     </p>
-                  </div>
-                ))}
-                
-                {result.saved_summaries.length === 0 && (
-                  <p className="text-center py-4 text-gray-500">サマリーが見つかりませんでした。</p>
-                )}
-              </div>
+                </div>
+              ))}
+            </div>
             ) : (
-              <div className="space-y-6">
-                <div>
-                  <h3 className="font-bold mb-2">【今週のパートナーの状況】</h3>
-                  <p className="text-sm leading-relaxed">
-                    今週は、お子さんの寝る前の支度をすべて担当してくれたり、仕事終わりにお子さんのためにお菓子を買ってきてくれたりしたこと、家族への気遣いが感じられる行動がありました。一方で、家事の分担については少し負担が偏っているように感じる場面もあったようです。また、一昨日は少し疲れが見えて、気持ちが不安定だった様子がうかがえました。
-                  </p>
-                </div>
-                
-                <div>
-                  <h3 className="font-bold mb-2">【あなたに対するコメント】</h3>
-                  <p className="text-sm leading-relaxed">
-                    お子さんの寝る前の支度を任せられたこと、大変助かったとのことです。また、お菓子を買ってきてくれた気遣いがとても嬉しかったそうです。ただし、家事の分担では負担が不均等なこと、少し手伝ってほしいと思う場面もあったようです。また、疲れているときの態度についても少し気になったようなので、無理をせずリラックスできる時間を作るとよいかもしれません。
-                  </p>
-                </div>
-                
-                <div>
-                  <h3 className="font-bold mb-2">【夫婦で話し合いたいこと】</h3>
-                  <ul className="text-sm list-disc pl-5 space-y-1">
-                    <li>家を購入することについての具体的な計画。</li>
-                    <li>今週末、流流機を見に行く予定の確認。</li>
-                    <li>ゴールデンウィークの旅行の計画や目的地について。</li>
-                  </ul>
-                </div>
-              </div>
+              <p className="text-gray-500 text-sm">パートナーのレポートは見つかりませんでした</p>
             )}
           </div>
           
@@ -295,33 +261,26 @@ export default function DashboardPage() {
                   className="object-cover"
                 />
               </div>
-              <h2 className="text-lg font-medium">3/20 {userName.split(' ')[1] || ''}さんのレポート</h2>
+              <h2 className="text-lg font-medium">{new Date().getMonth() + 1}/{new Date().getDate()} {userName.split(' ')[1] || ''}さんのレポート</h2>
             </div>
-            
-            <div className="space-y-6">
-              <div>
-                <h3 className="font-bold mb-2">【今週の状況】</h3>
-                <p className="text-sm leading-relaxed">
-                  今週は比較的に安定した1週間でした。家事や育児を協力して進めながら、自分の時間も確保できたことで、充実感を得られたようです。オンラインスクールの学習時間も確保でき、学びを積み、成長ができました。一方で、時間の使い方についてはもう少しエネできたかもしれないと感じています。来週は前の習慣づけやタスク管理の開始、タスク管理の強化を意識したいようです。
-                </p>
+            {loading ? (
+              <div className="py-8 text-center">
+                <p>データを読み込んでいます...</p>
               </div>
-              
-              <div>
-                <h3 className="font-bold mb-2">【あなたに対するコメント】</h3>
-                <p className="text-sm leading-relaxed">
-                  家事や育児を協力してくれたことや、子どもへの愛情をたくさん注いでくれたことに感謝しています。特に、オンラインスクールの時間を作れるよう協力してくれたことがとても助かったとのことです。一方で、雑談のときに少しそっけなく感じることがあったようです。育児や仕事の話にはしっかり耳を傾けてくれるので、そこまで気にしているわけではないようです。
-                </p>
+            ) : result && result.user_summaries ? (
+              <div className="space-y-6">
+                {result.user_summaries.map((item, index) => (
+                  <div key={index}>
+                    <h3 className="font-bold mb-2">【{item.query_key}】</h3>
+                    <p className="prose prose-sm">
+                      <ReactMarkdown>{item.summay_text}</ReactMarkdown>
+                    </p>
+                  </div>
+                ))}
               </div>
-              
-              <div>
-                <h3 className="font-bold mb-2">【夫婦で話し合いたいこと】</h3>
-                <ul className="text-sm list-disc pl-5 space-y-1">
-                  <li>保育園開始後の家事・育児の役割分担</li>
-                  <li>子どもが病気になった際の対応フロー（休む人の調整、病児保育の利用など）</li>
-                  <li>復職前にやっておきたいことのリスト化（家の整理、役所の手続き、自己学習など）</li>
-                </ul>
-              </div>
-            </div>
+            ) : (
+              <p className="text-gray-500 text-sm">自分のレポートは見つかりませんでした。</p>
+            )}
           </div>
         </div>
 
