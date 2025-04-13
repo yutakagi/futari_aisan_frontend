@@ -42,8 +42,8 @@ export default function DashboardPage() {
     setError("")
 
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-      // const baseUrl = "https://app-002-step3-2-py-oshima10.azurewebsites.net"
+      // const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+      const baseUrl = "https://app-002-step3-2-py-oshima10.azurewebsites.net"
       const url = `${baseUrl}/structured_vector_search/fixed_all?user_id=${userId}&days=${days}`
 
       const response = await fetch(url)
