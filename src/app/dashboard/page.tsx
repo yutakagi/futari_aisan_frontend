@@ -63,7 +63,7 @@ export default function DashboardPage() {
     }
   }
 
-  // 🧠 感情アラートを取得する
+  // 感情アラートを取得する
   const fetchEmotionAlert = async () => {
     try {
       const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
