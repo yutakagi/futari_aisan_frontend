@@ -289,7 +289,7 @@ const handleUserIdUpdate = async (e:React.FormEvent) => {
                   {result.user_summaries.map((item, index) => (
                     <div key={index}>
                       <h3 className="font-bold mb-2">【{item.query_key}】</h3>
-                      <div className="prose prose-sm">
+                      <div className="prose prose-sm ">
                         <ReactMarkdown>{item.summay_text}</ReactMarkdown>
                       </div>
                     </div>
@@ -311,8 +311,8 @@ const handleUserIdUpdate = async (e:React.FormEvent) => {
           {adviceText && (
             <div className="mt-4 bg-yellow-50 p-4 rounded shadow-sm border border-yellow-200">
               <h3 className="font-bold mb-2 text-[#e88e67]">ふたりで話し合ってみましょう！</h3>
-              <div className="whitespace-pre-line text-sm">
-                <ReactMarkdown>{adviceText}</ReactMarkdown>
+              <div className="text-sm leading-relaxed whitespace-pre-wrap">
+                <ReactMarkdown>{adviceText?.replace(/\n{3,}/g, '\n\n').trim()}</ReactMarkdown>
               </div>
             </div>
           )}
