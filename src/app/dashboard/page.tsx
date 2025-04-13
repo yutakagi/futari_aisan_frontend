@@ -96,8 +96,8 @@ const fetchAdvice = async() => {
   setAdviceLoading(true)
   setAdviceError("")
   try{
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-    // const baseUrl = "https://app-002-step3-2-py-oshima10.azurewebsites.net"
+    // const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+    const baseUrl = "https://app-002-step3-2-py-oshima10.azurewebsites.net"
     const res = await fetch(`${baseUrl}/dialogue_advice?user_id=${userId}`)
     if(!res.ok){
       throw new Error("アドバイスの取得に失敗しました")
