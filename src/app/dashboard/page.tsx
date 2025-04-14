@@ -41,6 +41,15 @@ export default function DashboardPage() {
   useEffect(() => {
     setIsClient(true)
   }, [])
+
+
+    // 対話したボタンのクリックハンドラを追加
+    const handleDialogueCompleted = () => {
+      router.push("review/create");
+    }
+
+  const fetchData = async () => {
+
   
   // API呼び出し用関数：数値のユーザーID(uid: number)を直接利用
   const fetchDataWithId = async (uid: number) => {
@@ -322,9 +331,12 @@ const fetchAdvice = async() => {
               >
               アドバイス
             </button>
-            <button className="bg-[#d35f4d] text-white px-8 py-2 rounded-md">
-              対話した
-            </button>
+            <button 
+            className="bg-[#d35f4d] text-white px-8 py-2 rounded-md"
+            onClick={handleDialogueCompleted}
+          >
+            ふりかえる
+          </button>
           </div>
         </div>
       </div>
