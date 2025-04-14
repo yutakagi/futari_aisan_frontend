@@ -20,6 +20,7 @@ const baseUrl =
 
 export default function DashboardPage() {
   const [isClient, setIsClient] = useState(false)
+  
   const [userName, setUserName] = useState('')
   const [userId, setUserId] = useState('')
   const [partnerName, setPartnerName] = useState('')
@@ -34,6 +35,7 @@ export default function DashboardPage() {
   const [adviceLoading,setAdviceLoading] = useState(false)
   const [adviceError, setAdviceError] = useState("")
   const [userIdInput, setUserIdInput] = useState("")
+  
 
 
   useEffect(() => {
@@ -167,26 +169,20 @@ const fetchAdvice = async() => {
 
       {/* メインコンテンツ */}
       <div className="flex-1 p-8 overflow-auto">
-        <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-start mb-8">
+          <div>
           <h1 className="text-2xl font-bold">ダッシュボード</h1>
-          <div className="flex space-x-4">
-           {/* 😡 感情アラート表示（ポップアップ付き） */}
-           <div className="relative group bg-white border border-gray-200 rounded-md px-4 py-2 flex items-center shadow-sm">
-            <Bell className="w-5 h-5 text-red-500 mr-2" />
-            {emotionAlert ? (
-              <>
-              <span className="text-sm text-gray-800 font-semibold">
-                {emotionAlert.emoji} {emotionAlert.label}
-                </span>
-                {/* ホバー時のメッセージ表示 */}
-                <div className="absolute top-full mt-2 left-0 w-64 z-10 hidden group-hover:block bg-white border border-gray-300 rounded-md shadow-lg p-3 text-sm text-gray-700">
-                  {emotionAlert.message}
-                  </div>
-                  </>
-                  ) : (
-                  <span className="text-sm text-gray-800">感情アラートはありません</span>
-                  )}
-                  </div>
+            </div>
+
+            <div className="flex justify-end items-center space-x-4 mb-6">
+            {/* 感情アラート（左） */}
+            {emotionAlert && (
+            <div className="bg-yellow-100 border border-yellow-200 text-gray-800 text-sm px-4 py-2 rounded-md shadow flex items-center space-x-2 max-w-xl">
+              <span>{emotionAlert.emoji}</span>
+              <span className="font-medium">{emotionAlert.label}</span>
+              <span className="text-gray-700">{emotionAlert.message}</span>
+            </div>
+          )}
             <button
               onClick={() => router.push("/conversation")}
               className="bg-gradient-to-r from-[#f8d3a8] to-[#e88e67] text-white px-6 py-2 rounded-md"
@@ -334,4 +330,5 @@ const fetchAdvice = async() => {
       </div>
     </div>
   )
+
 }
