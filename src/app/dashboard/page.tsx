@@ -32,6 +32,11 @@ export default function DashboardPage() {
     setIsClient(true)
   }, [])
 
+    // 対話したボタンのクリックハンドラを追加
+    const handleDialogueCompleted = () => {
+      router.push("review/create");
+    }
+
   const fetchData = async () => {
     setLoading(true)
     setError("")
@@ -301,9 +306,12 @@ export default function DashboardPage() {
             <button className="bg-[#e88e67] text-white px-8 py-2 rounded-md">
               アドバイス
             </button>
-            <button className="bg-[#d35f4d] text-white px-8 py-2 rounded-md">
-              対話した
-            </button>
+            <button 
+            className="bg-[#d35f4d] text-white px-8 py-2 rounded-md"
+            onClick={handleDialogueCompleted}
+          >
+            ふりかえる
+          </button>
           </div>
         </div>
       </div>
