@@ -14,6 +14,10 @@ const zenMaruGothic = Zen_Maru_Gothic({
   display: "swap",
 });
 
+const baseUrl =
+  //process.env.NEXT_PUBLIC_API_BASE_URL
+  "https://app-002-step3-2-py-oshima10.azurewebsites.net";
+
 export default function DashboardPage() {
   const [isClient, setIsClient] = useState(false)
   const [userName, setUserName] = useState('')
@@ -22,7 +26,6 @@ export default function DashboardPage() {
   const [emotionAlert, setEmotionAlert] = useState(null)
 
   const router = useRouter()
-
   const [days, setDays] = useState(7)
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(null)
@@ -36,26 +39,22 @@ export default function DashboardPage() {
   useEffect(() => {
     setIsClient(true)
   }, [])
-
-  const fetchData = async () => {
+  
+  // API呼び出し用関数：数値のユーザーID(uid: number)を直接利用
+  const fetchDataWithId = async (uid: number) => {
     setLoading(true)
     setError("")
-
     try {
-      // const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-      const baseUrl = "https://app-002-step3-2-py-oshima10.azurewebsites.net"
-      const url = `${baseUrl}/structured_vector_search/fixed_all?user_id=${userId}&days=${days}`
-
+      // 引数 uid を使用してURLを生成
+      const url = `${baseUrl}/structured_vector_search/fixed_all?user_id=${uid}&days=${days}`
       const response = await fetch(url)
       if (!response.ok) {
         throw new Error(`リクエストが失敗しました: ${response.status}`)
       }
-
       const data = await response.json()
       setResult(data)
       if (data.user_name) setUserName(data.user_name)
       if (data.partner_name) setPartnerName(data.partner_name)
-
     } catch (e) {
       setError(e.message)
     } finally {
@@ -63,11 +62,10 @@ export default function DashboardPage() {
     }
   }
 
-  // 感情アラートを取得する
-  const fetchEmotionAlert = async () => {
+  // 感情アラートを取得する（引数 uid を利用）
+  const fetchEmotionAlertWithId = async (uid: number) => {
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-      const res = await fetch(`${baseUrl}/emotion_alert/latest?user_id=${userId}`)
+      const res = await fetch(`${baseUrl}/emotion_alert/latest?user_id=${uid}`)
       if (res.ok) {
         const data = await res.json()
         setEmotionAlert(data)
@@ -77,27 +75,37 @@ export default function DashboardPage() {
     }
   }
 
+  // ユーザー入力値を数値に変換して、その値を直接API呼び出しに利用
+  const handleUserIdUpdate = async (e:React.FormEvent) => {
+    e.preventDefault()
+    const numericUserId = Number(userIdInput);
+    // アドバイスをクリアする
+    setAdviceText(null);
+    //表示上の更新
+    setUserId(numericUserId.toString());
+    await fetchDataWithId(numericUserId);
+    await fetchEmotionAlertWithId(numericUserId);
+  };
+
   useEffect(() => {
     if (isClient && userId) {
-      fetchData()
-      fetchEmotionAlert()
+      fetchDataWithId(Number(userId));
+      fetchEmotionAlertWithId(Number(userId));
     }
-  }, [isClient, userId])
+  }, [isClient, userId]);
 
   if (!isClient) {
     return (
       <div className="h-screen bg-[#f8f3e9] flex items-center justify-center">
         <p>Loading...</p>
       </div>
-    )
+    );
   }
 
 const fetchAdvice = async() => {
   setAdviceLoading(true)
   setAdviceError("")
   try{
-    // const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-    const baseUrl = "https://app-002-step3-2-py-oshima10.azurewebsites.net"
     const res = await fetch(`${baseUrl}/dialogue_advice?user_id=${userId}`)
     if(!res.ok){
       throw new Error("アドバイスの取得に失敗しました")
@@ -111,12 +119,6 @@ const fetchAdvice = async() => {
   }
 };
 
-const handleUserIdUpdate = async (e:React.FormEvent) => {
-  e.preventDefault()
-  setUserId(userIdInput)
-  await fetchData()
-  await fetchEmotionAlert()
-};
   return (
     <div className="flex h-screen bg-[#f8f3e9]">
        {/* エラーがあるときに中央上部に表示 */}
