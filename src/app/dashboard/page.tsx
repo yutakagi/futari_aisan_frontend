@@ -71,7 +71,7 @@ export default function DashboardPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }}
 
   // 感情アラートを取得する（引数 uid を利用）
   const fetchEmotionAlertWithId = async (uid: number) => {
