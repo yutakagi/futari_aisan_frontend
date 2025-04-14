@@ -50,7 +50,7 @@ export default function DashboardPage() {
 
   const fetchData = async () => {
 
-  
+  }
   // API呼び出し用関数：数値のユーザーID(uid: number)を直接利用
   const fetchDataWithId = async (uid: number) => {
     setLoading(true)
@@ -71,7 +71,7 @@ export default function DashboardPage() {
     } finally {
       setLoading(false)
     }
-  }}
+  }
 
   // 感情アラートを取得する（引数 uid を利用）
   const fetchEmotionAlertWithId = async (uid: number) => {
