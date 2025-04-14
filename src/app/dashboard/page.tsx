@@ -317,12 +317,12 @@ const fetchAdvice = async() => {
           {adviceError && <p className="text-red-500 mt-4">{adviceError}</p>}
           {adviceText && (
             <div className="mt-4 bg-yellow-50 p-4 rounded shadow-sm border border-yellow-200">
-              <h3 className="font-bold mb-2 text-[#e88e67]">ふたりで話し合ってみましょう！</h3>
-              <div className="text-sm leading-relaxed whitespace-pre-wrap">
-              <ReactMarkdown
+              <h2 className="font-bold mb-6  text-xl text-[#e88e67]">ふたりで話し合ってみましょう！</h2>
+              <div className="whitespace-pre-line text-md leading-tight">
+                <ReactMarkdown
                   components={{
                     h3: ({node, ...props}) => (
-                      <h3 className="text-3xl font-bold text-[#e88e67] mt-4 mb-2" {...props} />
+                      <h3 className="text-lg font-bold text-[#808080] mt-4 mb-2" {...props} />
                     )
                   }}>{adviceText}</ReactMarkdown>
               </div>
