@@ -30,7 +30,7 @@ export default function CreateReviewPage() {
     Badthing_remind: "",
   })
   const router = useRouter()
-  const backendUrl = "http://localhost:8000"
+  const backendUrl = "https://app-002-step3-2-py-oshima10.azurewebsites.net"
 
   // ユーザーID変更のハンドラ関数 - これが欠けていた
   const handleUserIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {

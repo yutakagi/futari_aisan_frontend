@@ -55,7 +55,7 @@ export default function ReviewPage() {
   // 振り返りデータ
   const [reviews, setReviews] = useState<FormattedReflection[]>([])
 
-  const backendUrl = "http://localhost:8000"
+  const backendUrl = "https://app-002-step3-2-py-oshima10.azurewebsites.net"
 
   // 振り返りデータを取得する関数
   const fetchReflections = async (includePartner = true) => {
