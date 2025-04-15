@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { LayoutGrid, MessageCircle, RotateCcw, Settings, Bell, Search } from 'lucide-react';
@@ -19,10 +20,14 @@ const baseUrl =
   "https://app-002-step3-2-py-oshima10.azurewebsites.net";
 
 export default function DashboardPage() {
+  const searchParams = useSearchParams()
+  // クエリから初期値を取得。無ければ空文字
+  const initialUserId   = searchParams.get("userId")   ?? ""
+  const initialUserName = searchParams.get("userName") ?? ""
   const [isClient, setIsClient] = useState(false)
+  const [userName, setUserName] = useState(initialUserName)
+  const [userId,   setUserId]   = useState(initialUserId)
   
-  const [userName, setUserName] = useState('')
-  const [userId, setUserId] = useState('')
   const [partnerName, setPartnerName] = useState('')
   const [emotionAlert, setEmotionAlert] = useState(null)
 
@@ -34,7 +39,7 @@ export default function DashboardPage() {
   const [adviceText, setAdviceText] = useState<string | null>(null)
   const [adviceLoading,setAdviceLoading] = useState(false)
   const [adviceError, setAdviceError] = useState("")
-  const [userIdInput, setUserIdInput] = useState("")
+  const [userIdInput, setUserIdInput] = useState(initialUserId)
   
 
 
@@ -42,15 +47,19 @@ export default function DashboardPage() {
     setIsClient(true)
   }, [])
 
+   // URL の ?userId=…&userName=… が変わったら state に反映
+   useEffect(() => {
+    const id   = searchParams.get("userId")
+    const name = searchParams.get("userName")
+    if (id)   setUserId(id)
+    if (name) setUserName(name)
+  }, [searchParams])
 
     // 対話したボタンのクリックハンドラを追加
     const handleDialogueCompleted = () => {
-      router.push("review/create");
+      router.push("/review/create");
     }
 
-  const fetchData = async () => {
-
-  }
   // API呼び出し用関数：数値のユーザーID(uid: number)を直接利用
   const fetchDataWithId = async (uid: number) => {
     setLoading(true)
@@ -155,7 +164,7 @@ const fetchAdvice = async() => {
             </li>
             <li className="flex items-center p-2 rounded hover:bg-gray-100">
               <MessageCircle className="w-5 h-5 mr-3 text-gray-500" />
-              <Link href="/conversation" className="w-full">今日のあのね！</Link>
+              <Link href={`/conversation?userId=${encodeURIComponent(userId)}&userName=${encodeURIComponent(userName)}`} className="w-full">今日のあのね！</Link>
             </li>
             <li className="flex items-center p-2 rounded hover:bg-gray-100">
               <RotateCcw className="w-5 h-5 mr-3 text-gray-500" />
@@ -193,7 +202,7 @@ const fetchAdvice = async() => {
             </div>
           )}
             <button
-              onClick={() => router.push("/conversation")}
+              onClick={() => router.push(`/conversation?userId=${encodeURIComponent(userId)}&userName=${encodeURIComponent(userName)}`)}
               className="bg-gradient-to-r from-[#f8d3a8] to-[#e88e67] text-white px-6 py-2 rounded-md"
             >
               今日のあのね！
@@ -205,7 +214,7 @@ const fetchAdvice = async() => {
         {/* API検索パネル */}
         <div className="flex justify-end mb-4 mr-4">
           <div className="flex item-center space-x-4">
-            <h2 className="text-sm font-semibold text-gray-700 mt-2">ユーザーIDを設定してレポート生成</h2>
+            <h2 className="text-sm font-semibold text-gray-700 mt-2">ユーザーIDを設定する</h2>
             
             <form onSubmit={handleUserIdUpdate} className="flex items-center space-x-2">
               <input
@@ -223,7 +232,7 @@ const fetchAdvice = async() => {
                 } text-white px-3 py-1.5 text-sm rounded transition-colors`}
                 disabled={loading}
               >
-                レポート生成
+                設定
               </button>
               <span className="text-xs text-gray-500">現在のID: {userId}</span>
             </form>

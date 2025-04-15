@@ -1,19 +1,23 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { useSearchParams } from "next/navigation"
 import { LayoutGrid, MessageCircle, RotateCcw, Settings } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
 export default function ConversationPage() {
   // 静的な初期値を使用
+  const searchParams = useSearchParams()
+  const initialUserId = searchParams.get("userId") ?? ""
+  const initialUserName = searchParams.get("userName") ?? ""
   const [sessionId, setSessionId] = useState("")
   const [round, setRound] = useState(0)
   const [chatHistory, setChatHistory] = useState([])
   const [userInput, setUserInput] = useState("")
-  const [userId, setUserId] = useState("1001")
-  const [userIdInput, setUserIdInput] = useState("1001") // デバッグ用ユーザーID入力
-  const [userName, setUserName] = useState("斎藤 俊輔")
+  const [userId, setUserId] = useState(initialUserId)
+  const [userIdInput, setUserIdInput] = useState(initialUserId) 
+  const [userName, setUserName] = useState(initialUserName)
   const [saveStatus, setSaveStatus] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const chatContainerRef = useRef(null)
@@ -27,12 +31,27 @@ export default function ConversationPage() {
     setIsClient(true)
   }, [])
 
+ // URL クエリから userName を拾って state にセット
+ useEffect(() => {
+  const name = searchParams.get("userName")
+  if (name) {
+    setUserName(name)
+  }
+}, [searchParams])
+
+  // ユーザーIDが入力済みでセッションが未開始の場合にセッションを開始
+  useEffect(() => {
+    if (isClient && !sessionId && userId.trim() !== "") {
+      callChatApi("")
+    }
+  }, [isClient, userId, sessionId])
+
   // バックエンド /chat エンドポイントへのリクエスト
   const callChatApi = async (answer) => {
     if (!isClient) return
 
     const payload = {
-      user_id: userId,
+      user_id: Number(userId),
       session_id: sessionId || undefined,
       answer: answer || "",
     }
@@ -74,12 +93,6 @@ export default function ConversationPage() {
     }
   }
 
-  // ユーザーIDが入力済みでセッションが未開始の場合にセッションを開始
-  useEffect(() => {
-    if (isClient && !sessionId && userId.trim() !== "") {
-      callChatApi("")
-    }
-  }, [isClient, userId, sessionId])
 
   // チャット履歴が更新されたら、スクロールを一番下に移動
   useEffect(() => {
@@ -114,7 +127,7 @@ export default function ConversationPage() {
     setIsLoading(true)
 
     try {
-      const res = await fetch(`${backendUrl}/save_conversation?session_id=${sessionId}&user_id=${userId}`, {
+      const res = await fetch(`${backendUrl}/save_conversation?session_id=${sessionId}&user_id=${Number(userId)}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       })
@@ -175,11 +188,11 @@ export default function ConversationPage() {
           <ul className="space-y-4">
             <li className="flex items-center p-2 rounded hover:bg-gray-100">
               <LayoutGrid className="w-5 h-5 mr-3 text-gray-500" />
-              <Link href="/dashboard" className="w-full">ダッシュボード</Link>
+              <Link href={`/dashboard?userId=${encodeURIComponent(userId)}&userName=${encodeURIComponent(userName)}`} className="w-full">ダッシュボード</Link>
             </li>
             <li className="flex items-center p-2 rounded bg-gray-100">
               <MessageCircle className="w-5 h-5 mr-3 text-gray-500" />
-              <Link href="/conversation" className="w-full">今日のあのね！</Link>
+              <Link href={`/conversation?userId=${encodeURIComponent(userId)}&userName=${encodeURIComponent(userName)}`} className="w-full">今日のあのね！</Link>
             </li>
             <li className="flex items-center p-2 rounded hover:bg-gray-100">
               <RotateCcw className="w-5 h-5 mr-3 text-gray-500" />
