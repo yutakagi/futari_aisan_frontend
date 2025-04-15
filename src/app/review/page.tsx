@@ -30,13 +30,13 @@ type TabType = "self" | "partner"
 
 export default function ReviewPage() {
   const [isClient, setIsClient] = useState(false)
-  const [userName, setUserName] = useState("斎藤 俊輔")
-  const [userId, setUserId] = useState("1")
-  const [partnerName, setPartnerName] = useState("美海")
+  const [userName, setUserName] = useState("")
+  const [userId, setUserId] = useState("1001")
+  const [partnerName, setPartnerName] = useState("")
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<TabType>("self")
-  const [inputUserId, setInputUserId] = useState("1") 
+  const [inputUserId, setInputUserId] = useState("1001") 
   const [isSettingId, setIsSettingId] = useState(false)
 
   // ユーザーIDを設定するハンドラー関数
