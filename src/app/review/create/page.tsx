@@ -16,10 +16,10 @@ interface ReportReminding {
 
 export default function CreateReviewPage() {
   const [isClient, setIsClient] = useState(false)
-  const [userName, setUserName] = useState("斎藤 俊輔")
-  const [userId, setUserId] = useState("1")
-  const [inputUserId, setInputUserId] = useState("1")
-  const [currentUserId, setCurrentUserId] = useState("1")
+  const [userName, setUserName] = useState("")
+  const [userId, setUserId] = useState("1001")
+  const [inputUserId, setInputUserId] = useState("1001")
+  const [currentUserId, setCurrentUserId] = useState("1001")
   const [planToDo, setPlanToDo] = useState("")
   const [notEnoughTalked, setNotEnoughTalked] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
