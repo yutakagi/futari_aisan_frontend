@@ -231,9 +231,9 @@ const fetchAdvice = async() => {
         </div>
 
         {/* レポートカード */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* パートナーのレポート - APIデータを表示 */}
-          <div className="bg-white rounded-lg p-6 shadow-sm h-[550px] overflow-hidden">
+          <div className="lg:col-span-2 bg-white rounded-lg p-6 shadow-sm h-[550px] overflow-hidden">
             <div className="h-full overflow-y-auto pr-2">
               <div className="flex items-center mb-6 ">
                 <div className="w-12 h-12 rounded-full overflow-hidden mr-3">

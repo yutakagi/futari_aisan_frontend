@@ -13,7 +13,7 @@ export default function ConversationPage() {
   const [userInput, setUserInput] = useState("")
   const [userId, setUserId] = useState("1001")
   const [userIdInput, setUserIdInput] = useState("1001") // デバッグ用ユーザーID入力
-  const [userName, setUserName] = useState("斎藤 俊輔")
+  const [userName, setUserName] = useState("")
   const [saveStatus, setSaveStatus] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const chatContainerRef = useRef(null)
